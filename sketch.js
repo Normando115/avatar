@@ -1,10 +1,11 @@
 let fr = 30; //starting FPS
 let micLevel;
 let marks = [];
+let sketchStarted = false;
+
 
 function setup() {
-  mic = new p5.AudioIn();
-  mic.start();  
+createButton("Start").mousePressed(startSketch);
   createCanvas(500, 500);
   background(191, 191, 191);
     frameRate(fr); // Attempt to refresh at starting FPS
@@ -12,9 +13,17 @@ function setup() {
     marks[i] = new Mark();
 
  }
+function startSketch(){
+  mic = new p5.AudioIn();
+  mic.start();
+
+  sketchStarted = true;
+}
 
 }
 function draw(){
+    if (sketchStarted){
+    micLevel = mic.getLevel();
     background(191, 191, 191);
   push();
    for (let i = 0; i <= 40; i++){
@@ -22,10 +31,7 @@ function draw(){
    marks[i].display();
   marks[i].move();
  }
-  pop(); 
-  micLevel = mic.getLevel();
-
-
+  pop();
   drawShoulders();
   drawChest();
   drawTable();
@@ -33,7 +39,7 @@ function draw(){
   drawArms();
   drawEyes();
   drawClock();
-  
+}
 }
 
 function drawChest(){
@@ -54,20 +60,20 @@ function drawTable(){
 vertex(width * .0, height *.7);
 vertex(width * 1, height *.9);
 vertex(width * 1, height *1);
-vertex(width * 0, height *1);  
+vertex(width * 0, height *1);
     endShape(CLOSE);
 }
 function drawNeck(){
     //neck
   fill(255, 239, 186);
-circle(260, 210, 55); 
+circle(260, 210, 55);
   //head
   fill(255, 239, 186);
     circle(260, 110, 220);
 
 }
 function drawShoulders(){
-  
+
  //left shoulder
 fill(255, 239, 186);
   beginShape();
@@ -75,7 +81,7 @@ curveVertex(width * .5, height *.36);
 curveVertex(width * .3, height *.44);
 curveVertex(width * .27, height *.75);
   endShape(CLOSE);
-  
+
   //left shoulder 2
 fill(255, 255, 255)
    beginShape();
@@ -83,7 +89,7 @@ curveVertex(width * .5, height *.36);
 curveVertex(width * .3, height *.44);
 vertex(width * .27, height *.62);
   endShape(CLOSE);
-  
+
   //right shoulder
   fill(255, 239, 186)
    beginShape();
@@ -92,7 +98,7 @@ curveVertex(width * .7, height *.42);
 vertex(width * .75, height *.5);
 vertex(width * .74, height *.8);
   endShape(CLOSE);
-  
+
   //right shoulder 2
   fill(255, 255, 255)
      beginShape();
@@ -102,9 +108,9 @@ vertex(width * .77, height *.6);
 vertex(width * .70, height *.6);
   endShape(CLOSE);
 }
-function drawArms(){ 
+function drawArms(){
   //left arm
-fill(255, 239, 186)  
+fill(255, 239, 186)
   beginShape();
   vertex(width * .31, height *.26);
   vertex(width * .30, height *.27);
@@ -121,8 +127,8 @@ fill(255, 239, 186)
   vertex(width * .34, height *.25);
   vertex(width * .33, height *.24);
   endShape(CLOSE);
-  
-  
+
+
   //right arm
 fill(255, 239, 186)
     beginShape();
@@ -139,18 +145,18 @@ vertex(width * .73, height *.29);
 vertex(width * .70, height *.28);
 vertex(width * .68, height *.29);
   endShape(CLOSE);
-  
+
 }
 
 function drawEyes(xPos, yPos, size){
-  
+
   xPos = 210
   //Eyes
   fill(255, 255, 255);
-  
+
 ellipse(220,100,50,70);
 ellipse(320,100,50,70);
-  
+
    if (mouseX > 270 && mouseX < 500){
     xPos=240
 }
@@ -158,13 +164,13 @@ ellipse(320,100,50,70);
     fill( 50, 50, 50);
 circle(xPos, 100, 10);
 circle(xPos+ 100, 100,10);
-  
+
 line(200,50+micLevel*100, 220, 50+micLevel*100);
 line(220,50+micLevel*100, 230, 48+micLevel*100);
  line(230,48+micLevel*100, 250, 58+micLevel*100);
   line(250, 58+micLevel*100, 253, 57+micLevel*100);
   line(300, 50+micLevel*100, 350, 40+micLevel*100);
-  
+
   //nose
    line(270, 120, 280, 140);
   line(280,140, 270, 150);
@@ -187,4 +193,3 @@ ellipse(70,70,120);
   endShape(CLOSE);
    pop();
 }
-
